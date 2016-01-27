@@ -21,17 +21,29 @@ public class MainActivity extends Activity
         setContentView(R.layout.main);
 	try
 	    {
-		URL url = new URL("http://www.google.com/");
-		URL website = new URL("http://www.google.com");
+		String urlParameters = "USERNAME=switch201&PASSWORD=passwor";
+		URL website = new URL("http://www.secs.oakland.edu/~scnolton/auth.php");
 		httpClient = (HttpURLConnection) website.openConnection();
+
+		httpClient.setDoOutput(true);
+		httpClient.setRequestProperty("Accept-Charset", "UTF-8");
+		httpClient.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+		try {
+		    OutputStream output = httpClient.getOutputStream();
+			output.write(urlParameters.getBytes("UTF-8"));
+		    }
+		catch(Exception ex){}
+		
 		InputStream response = httpClient.getInputStream();
+		//converts InputStream -> String
 		String inputStreamString = new Scanner(response,"UTF-8").useDelimiter("\\A").next();
 		TextView outputTextView = (TextView)findViewById(R.id.myoutput);
 		outputTextView.setText(inputStreamString);
 	    }
-	catch(Exception ex)
-	    {
-	    }
+	catch(Exception ex){}
 	
     }
 }
+
+//byte[] postData = urlParameters.getBytes( StandardCharsets.UTF_8 );
+		//int postDataLength = postData.length;
